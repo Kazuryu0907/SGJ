@@ -7,7 +7,8 @@ public class ChangeScene : MonoBehaviour
 {
     [SerializeField] private AudioSource startAudio;
     private void loadMain(){
-        SceneManager.LoadScene("Main");//second���Ăяo���܂�
+        // SceneManager.LoadScene("Main");//second���Ăяo���܂�
+        SceneManager.LoadScene("TK_TEST");//second���Ăяo���܂�
     }
     public void change_button() //change_button�Ƃ������O�ɂ��܂�
     {
@@ -19,6 +20,7 @@ public class ChangeScene : MonoBehaviour
         // string sceneName = "NextSceneHere";
         // SceneManager.LoadScene(sceneName)
         Debug.Log("onGoal");
+        SceneManager.LoadScene("TK_TEST_GOAL");
     }
 
     private void OnTriggerEnter(Collider other){

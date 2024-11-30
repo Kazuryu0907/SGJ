@@ -1,6 +1,39 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class TargetObject : MonoBehaviour
 {
-    public GameManager.MagnetAttribute objectAttribute; // ƒ^[ƒQƒbƒgƒIƒuƒWƒFƒNƒg‚Ì‘®«
+    private Animator animator;
+    public GameManager.MagnetAttribute objectAttribute; // ï¿½^ï¿½[ï¿½Qï¿½bï¿½gï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½Ì‘ï¿½ï¿½ï¿½
+    private Vector3 prePosition;
+    private float scaleSize;
+    private float vel = 0;
+
+    private void Start(){
+        animator = GetComponent<Animator>();
+        prePosition = transform.position;
+        scaleSize = transform.localScale.x;
+    }
+    private void Update(){
+        // å³ã«å‹•ã„ã¦ãŸã‚‰
+        float vel_x = transform.position.x - prePosition.x;
+        vel = (transform.position - prePosition).magnitude;
+        animator.SetFloat("vel", vel);
+        Debug.Log(transform.localScale.x);
+        // Dashã®Animation
+        if(vel_x != 0) animator.SetBool("dash", true);
+        else animator.SetBool("dash", false);
+        
+        if(vel_x > 0){
+            Vector3 scale = transform.localScale;
+            scale.x = -scaleSize;
+            transform.localScale = scale;
+        }else{
+            Vector3 scale = transform.localScale;
+            scale.x = scaleSize;
+            transform.localScale = scale;
+        }
+
+        prePosition = transform.position;
+    }
 }
