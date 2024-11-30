@@ -5,15 +5,21 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     // private AudioSource[] audioSources = new AudioSource[20];
-
+    public static AudioManager instance;
     [SerializeField] private AudioClip audioRepel;
     [SerializeField] private AudioClip audioAttract;
     private string attractedObjectName = "";
     private string repeledObjectName = "";
     [SerializeField] private AudioClip audioBiribiri;
-    [SerializeField] private AudioClip audioGoal;
     private AudioSource audioSource = default;
     private void Awake(){
+        if(instance == null){
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }else{
+            Destroy(gameObject);
+        }
+
         audioSource = gameObject.AddComponent<AudioSource>();
         // for(int i = 0; i < audioSources.Length; i++){
         //     audioSources[i] = gameObject.AddComponent<AudioSource>();
