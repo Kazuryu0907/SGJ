@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour
     private void HandleMouseClick()
     {
         // activeSpotlightがnullでない場合にのみ処理を行う
-        if (activeSpotlight != null)
+        if ((activeSpotlight != null))
         {
             // 左クリックでライトを移動
             if (Input.GetMouseButtonDown(0)) // マウスボタンが押されたとき

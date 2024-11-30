@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Magnet : MonoBehaviour
 {
     public bool isActive = false; // 磁石のアクティブ状態
-    public bool isNorth = true;   // 北極か南極か
+    public GameManager.MagnetAttribute magnetAttribute; // 磁石の属性（正または負）
 
     void Start()
     {
@@ -15,10 +13,17 @@ public class Magnet : MonoBehaviour
         }
     }
 
-    // クリックしたときに磁石の状態を切り替える
+    // マウスを押したときにアクティブにする
     void OnMouseDown()
     {
-        isActive = !isActive; // クリックで磁石のアクティブ状態を切り替える
-        Debug.Log("Magnet Active: " + isActive);
+        isActive = true; // アクティブ状態にする
+        Debug.Log("Magnet Activated: " + isActive + ", Attribute: " + magnetAttribute);
+    }
+
+    // マウスを離したときに非アクティブにする
+    void OnMouseUp()
+    {
+        isActive = false; // 非アクティブ状態にする
+        Debug.Log("Magnet Deactivated: " + isActive + ", Attribute: " + magnetAttribute);
     }
 }

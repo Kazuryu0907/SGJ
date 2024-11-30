@@ -5,9 +5,9 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public GameObject magnetObject; // マグネットオブジェクト
-    public float repulsionForce = 10f; // 反発力の強さ
-    public float attractionForce = 10f; // 引き寄せ力の強さ
-    public float detectionRadius = 5f; // オーバーラップを検出する半径（publicに変更）
+    public float repulsionForce; // 反発力の強さ
+    public float attractionForce; // 引き寄せ力の強さ
+    public float detectionRadius; // オーバーラップを検出する半径
 
     public enum MagnetAttribute
     {
@@ -19,8 +19,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        // 半径の変更を反映させる
-        Collider[] colliders = Physics.OverlapSphere(magnetObject.transform.position, detectionRadius); // 半径をdetectionRadiusで指定
+        Collider[] colliders = Physics.OverlapSphere(magnetObject.transform.position, detectionRadius); // 半径を指定
 
         foreach (var collider in colliders)
         {
@@ -47,21 +46,30 @@ public class GameManager : MonoBehaviour
     private void Repel(GameObject target)
     {
         Vector3 direction = target.transform.position - magnetObject.transform.position; // マグネットからターゲットへのベクトル
-        target.GetComponent<Rigidbody>().AddForce(direction.normalized * repulsionForce); // 反発力を加える
+        Vector3 targetPosition = magnetObject.transform.position + direction.normalized * detectionRadius; // 境界付近の位置
+        target.transform.position = Vector3.MoveTowards(target.transform.position, targetPosition, repulsionForce * Time.deltaTime); // 境界に向かう
     }
 
     // 引き寄せ処理
     private void Attract(GameObject target)
     {
         Vector3 direction = magnetObject.transform.position - target.transform.position; // マグネットへ引き寄せるベクトル
-        target.GetComponent<Rigidbody>().AddForce(direction.normalized * attractionForce); // 引き寄せ力を加える
+        float distance = direction.magnitude;
+
+        // マグネットにぶつからないようにする
+        if (distance > 0.5f) // 距離が0.5未満にならないよう制限
+        {
+            target.transform.position = Vector3.MoveTowards(target.transform.position, magnetObject.transform.position, attractionForce * Time.deltaTime);
+        }
     }
 
     // 視覚化のためにGizmosを使用
     private void OnDrawGizmos()
     {
-        // マグネットオブジェクトの位置を中心に、半径範囲を表示
-        Gizmos.color = Color.green; // 緑色で表示
-        Gizmos.DrawWireSphere(magnetObject.transform.position, detectionRadius); // 半径を持つワイヤーフレームの球を描画
+        if (magnetObject != null)
+        {
+            Gizmos.color = Color.green; // 緑色で表示
+            Gizmos.DrawWireSphere(magnetObject.transform.position, detectionRadius); // 半径を持つワイヤーフレームの球を描画
+        }
     }
 }
