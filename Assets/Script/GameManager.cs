@@ -4,72 +4,79 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject magnetObject; // ƒ}ƒOƒlƒbƒgƒIƒuƒWƒFƒNƒg
-    public float repulsionForce; // ”½”­—Í‚Ì‹­‚³
-    public float attractionForce; // ˆø‚«Šñ‚¹—Í‚Ì‹­‚³
-    public float detectionRadius; // ƒI[ƒo[ƒ‰ƒbƒv‚ğŒŸo‚·‚é”¼Œa
+    public GameObject magnetObject; // ï¿½}ï¿½Oï¿½lï¿½bï¿½gï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½g
+    public float repulsionForce; // ï¿½ï¿½ï¿½ï¿½ï¿½Í‚Ì‹ï¿½ï¿½ï¿½
+    public float attractionForce; // ï¿½ï¿½ï¿½ï¿½ï¿½ñ‚¹—Í‚Ì‹ï¿½ï¿½ï¿½
+    public float detectionRadius; // ï¿½Iï¿½[ï¿½oï¿½[ï¿½ï¿½ï¿½bï¿½vï¿½ï¿½ï¿½ï¿½ï¿½oï¿½ï¿½ï¿½é”¼ï¿½a
 
     public enum MagnetAttribute
     {
-        Positive, // ³‚Ì‘®«
-        Negative  // •‰‚Ì‘®«
+        Positive, // ï¿½ï¿½ï¿½Ì‘ï¿½ï¿½ï¿½
+        Negative  // ï¿½ï¿½ï¿½Ì‘ï¿½ï¿½ï¿½
     }
 
-    public MagnetAttribute magnetAttribute; // ƒ}ƒOƒlƒbƒgƒIƒuƒWƒFƒNƒg‚Ì‘®«
 
     private void Update()
     {
-        Collider[] colliders = Physics.OverlapSphere(magnetObject.transform.position, detectionRadius); // ”¼Œa‚ğw’è
+        // Collider[] colliders = Physics.OverlapSphere(magnetObject.transform.position, detectionRadius); // ï¿½ï¿½ï¿½aï¿½ï¿½ï¿½wï¿½ï¿½
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(magnetObject.transform.position, detectionRadius); // ï¿½ï¿½ï¿½aï¿½ï¿½ï¿½wï¿½ï¿½
 
         foreach (var collider in colliders)
         {
             GameObject target = collider.gameObject;
-            if (target.CompareTag("Magnet")) // "Magnet" ƒ^ƒO‚ğ‚ÂƒIƒuƒWƒFƒNƒg
+            MagnetAttribute magnetAttribute = magnetObject.GetComponent<Magnet>().magnetAttribute;;
+            if (target.CompareTag("Target")) // "Magnet" ï¿½^ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ÂƒIï¿½uï¿½Wï¿½Fï¿½Nï¿½g
             {
-                // ƒ^[ƒQƒbƒgƒIƒuƒWƒFƒNƒg‚É‘Î‰‚·‚é‘®«‚ğæ“¾
+                // ï¿½^ï¿½[ï¿½Qï¿½bï¿½gï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½É‘Î‰ï¿½ï¿½ï¿½ï¿½é‘®ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
                 MagnetAttribute targetAttribute = target.GetComponent<TargetObject>().objectAttribute;
-
-                // ‘®«‚ªˆê’v‚µ‚Ä‚¢‚ê‚Î”½”­Aˆá‚¦‚Îˆø‚«Šñ‚¹
+                Debug.Log("target:"+targetAttribute);
+                Debug.Log("magnet:"+magnetAttribute);
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½Î”ï¿½ï¿½ï¿½ï¿½Aï¿½á‚¦ï¿½Îˆï¿½ï¿½ï¿½ï¿½ï¿½
                 if (magnetAttribute == targetAttribute)
                 {
+                    // Debug.Log("Repelling");
                     Repel(target);
                 }
                 else
                 {
+                    // Debug.Log("Attracting");
                     Attract(target);
                 }
             }
         }
     }
 
-    // ”½”­ˆ—
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     private void Repel(GameObject target)
     {
-        Vector3 direction = target.transform.position - magnetObject.transform.position; // ƒ}ƒOƒlƒbƒg‚©‚çƒ^[ƒQƒbƒg‚Ö‚ÌƒxƒNƒgƒ‹
-        Vector3 targetPosition = magnetObject.transform.position + direction.normalized * detectionRadius; // ‹«ŠE•t‹ß‚ÌˆÊ’u
-        target.transform.position = Vector3.MoveTowards(target.transform.position, targetPosition, repulsionForce * Time.deltaTime); // ‹«ŠE‚ÉŒü‚©‚¤
+        Vector3 direction = target.transform.position - magnetObject.transform.position; // ï¿½}ï¿½Oï¿½lï¿½bï¿½gï¿½ï¿½ï¿½ï¿½^ï¿½[ï¿½Qï¿½bï¿½gï¿½Ö‚Ìƒxï¿½Nï¿½gï¿½ï¿½
+        Vector3 targetPosition = magnetObject.transform.position + direction.normalized * detectionRadius; // ï¿½ï¿½ï¿½Eï¿½tï¿½ß‚ÌˆÊ’u
+        Debug.Log(direction);
+        Debug.Log(targetPosition);
+        // target.transform.position.
+        target.transform.position = Vector3.MoveTowards(target.transform.position, targetPosition, repulsionForce * Time.deltaTime); // ï¿½ï¿½ï¿½Eï¿½ÉŒï¿½ï¿½ï¿½ï¿½ï¿½
     }
 
-    // ˆø‚«Šñ‚¹ˆ—
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ñ‚¹ï¿½ï¿½ï¿½
     private void Attract(GameObject target)
     {
-        Vector3 direction = magnetObject.transform.position - target.transform.position; // ƒ}ƒOƒlƒbƒg‚Öˆø‚«Šñ‚¹‚éƒxƒNƒgƒ‹
+        Vector3 direction = magnetObject.transform.position - target.transform.position; // ï¿½}ï¿½Oï¿½lï¿½bï¿½gï¿½Öˆï¿½ï¿½ï¿½ï¿½ñ‚¹‚ï¿½xï¿½Nï¿½gï¿½ï¿½
         float distance = direction.magnitude;
 
-        // ƒ}ƒOƒlƒbƒg‚É‚Ô‚Â‚©‚ç‚È‚¢‚æ‚¤‚É‚·‚é
-        if (distance > 0.5f) // ‹——£‚ª0.5–¢–‚É‚È‚ç‚È‚¢‚æ‚¤§ŒÀ
+        // ï¿½}ï¿½Oï¿½lï¿½bï¿½gï¿½É‚Ô‚Â‚ï¿½ï¿½ï¿½È‚ï¿½ï¿½æ‚¤ï¿½É‚ï¿½ï¿½ï¿½
+        if (distance > 0.5f) // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0.5ï¿½ï¿½ï¿½ï¿½ï¿½É‚È‚ï¿½È‚ï¿½ï¿½æ‚¤ï¿½ï¿½ï¿½ï¿½
         {
             target.transform.position = Vector3.MoveTowards(target.transform.position, magnetObject.transform.position, attractionForce * Time.deltaTime);
         }
     }
 
-    // ‹Šo‰»‚Ì‚½‚ß‚ÉGizmos‚ğg—p
+    // ï¿½ï¿½ï¿½oï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ß‚ï¿½Gizmosï¿½ï¿½ï¿½gï¿½p
     private void OnDrawGizmos()
     {
         if (magnetObject != null)
         {
-            Gizmos.color = Color.green; // —ÎF‚Å•\¦
-            Gizmos.DrawWireSphere(magnetObject.transform.position, detectionRadius); // ”¼Œa‚ğ‚ÂƒƒCƒ„[ƒtƒŒ[ƒ€‚Ì‹…‚ğ•`‰æ
+            Gizmos.color = Color.green; // ï¿½ÎFï¿½Å•\ï¿½ï¿½
+            Gizmos.DrawWireSphere(magnetObject.transform.position, detectionRadius); // ï¿½ï¿½ï¿½aï¿½ï¿½ï¿½ï¿½ï¿½Âƒï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Ì‹ï¿½ï¿½ï¿½`ï¿½ï¿½
         }
     }
 }
