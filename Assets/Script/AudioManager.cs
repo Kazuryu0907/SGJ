@@ -41,7 +41,7 @@ public class AudioManager : MonoBehaviour
         play(audioAttract);
     }
     public void playBiribiri(){
-        Debug.Log("Biribiri");
+        // Debug.Log("Biribiri");
         play(audioBiribiri);
     }
     void Start()
