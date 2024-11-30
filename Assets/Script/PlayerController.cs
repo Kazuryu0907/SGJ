@@ -69,8 +69,15 @@ public class PlayerController : MonoBehaviour
 
         Vector3 targetPosition = mainCamera.ScreenToWorldPoint(mousePosition);
 
+        // 画面の範囲を取得
+        float screenWidth = mainCamera.orthographicSize * 2 * Screen.width / Screen.height;
+        float screenHeight = mainCamera.orthographicSize * 2;
+
         // プレイヤーをマウス位置に移動（X軸とY軸）
-        transform.position = new Vector3(targetPosition.x, targetPosition.y, targetPosition.z);
+        float clampedX = Mathf.Clamp(targetPosition.x, -screenWidth / 2, screenWidth / 2);
+        float clampedY = Mathf.Clamp(targetPosition.y, -screenHeight / 2, screenHeight / 2);
+
+        transform.position = new Vector3(clampedX, clampedY, targetPosition.z);
     }
 
     private void HandleMouseClick()

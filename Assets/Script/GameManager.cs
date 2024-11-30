@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     }
     public MagnetAttribute magnetAttribute = MagnetAttribute.Positive; // 初期値はPositive
     private GameObject clickedMagnetObject = null; // クリックされた磁石オブジェクト
+    private bool isMagnetSet = false; // 磁石属性が設定されているかどうかを追跡
 
     private void Update()
     {
@@ -30,12 +31,19 @@ public class GameManager : MonoBehaviour
             if (hitCollider != null && hitCollider.gameObject.CompareTag("Magnet"))
             {
                 clickedMagnetObject = hitCollider.gameObject;
-                // クリックした磁石オブジェクトの属性を更新
-                magnetAttribute = clickedMagnetObject.GetComponent<Magnet>().magnetAttribute;
+
+                // まだ磁石属性が設定されていない場合のみ属性を設定
+                if (!isMagnetSet)
+                {
+                    // クリックした磁石オブジェクトの属性を保存
+                    magnetAttribute = clickedMagnetObject.GetComponent<Magnet>().magnetAttribute;
+                    isMagnetSet = true; // 属性が設定されたことを記録
+                }
             }
         }
 
-        if (clickedMagnetObject != null)
+        // クリックされた磁石オブジェクトがあり、クリックが押されている間のみ処理を実行
+        if (clickedMagnetObject != null && Input.GetMouseButton(0))
         {
             // クリックされた磁石オブジェクトの位置を取得
             Vector3 clickedMagnetPosition = clickedMagnetObject.transform.position;
@@ -54,12 +62,10 @@ public class GameManager : MonoBehaviour
                     // 同じ属性なら反発、それ以外は引き寄せ
                     if (magnetAttribute == targetAttribute)
                     {
-                        Debug.Log(123);
                         Repel(target);
                     }
                     else
                     {
-                        Debug.Log(456);
                         Attract(target);
                     }
                 }
