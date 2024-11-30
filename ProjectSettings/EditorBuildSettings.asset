@@ -11,10 +11,13 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Main.unity
     guid: 6ecc8903fbdd1c94c9b854b6b596f53d
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/LAB/TK_TEST.unity
     guid: b3a297a2a5f1e0c4384b81782b057dd4
   - enabled: 1
     path: Assets/Scenes/LAB/TK_TEST_GOAL.unity
     guid: 1d26c394f7525844792968ad34c4f01e
+  - enabled: 1
+    path: Assets/Scenes/LAB/TK_TEST_WALL.unity
+    guid: 25783dfe200254247898d5ddb3be1e36
   m_configObjects: {}
