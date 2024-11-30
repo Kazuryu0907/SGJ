@@ -5,9 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class ChangeScene : MonoBehaviour
 {
+    [SerializeField] private AudioSource startAudio;
+    private void loadMain(){
+        SceneManager.LoadScene("Main");//second���Ăяo���܂�
+    }
     public void change_button() //change_button�Ƃ������O�ɂ��܂�
     {
-        SceneManager.LoadScene("Main");//second���Ăяo���܂�
+        startAudio.Play();
+        Invoke(nameof(loadMain), 1.2f);
     }
 
     public void onGoal(){
