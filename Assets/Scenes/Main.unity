@@ -915,7 +915,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fdea4dffcfdb154fb3ab38d39b9f559, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spotLight: {fileID: 0}
+  spotLight: {fileID: 1346129777}
   maxLightDuration: 10
 --- !u!4 &1902034691
 Transform:
