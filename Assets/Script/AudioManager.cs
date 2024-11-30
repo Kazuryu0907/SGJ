@@ -13,12 +13,12 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip audioBiribiri;
     private AudioSource audioSource = default;
     private void Awake(){
-        if(instance == null){
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }else{
-            Destroy(gameObject);
-        }
+        // if(instance == null){
+        //     instance = this;
+        //     DontDestroyOnLoad(gameObject);
+        // }else{
+        //     Destroy(gameObject);
+        // }
 
         audioSource = gameObject.AddComponent<AudioSource>();
         // for(int i = 0; i < audioSources.Length; i++){

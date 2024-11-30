@@ -47,6 +47,9 @@ public class GameManager : MonoBehaviour
                     magnetAttribute = clickedMagnetObject.GetComponent<Magnet>().magnetAttribute;
                     isMagnetSet = true; // 属性が設定されたことを記録
                 }
+            }else{
+                // クリックされたオブジェクトが磁石オブジェクトでない場合、クリックされた磁石オブジェクトをnullに設定
+                clickedMagnetObject = null;
             }
         }
 
