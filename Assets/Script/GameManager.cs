@@ -101,6 +101,8 @@ public class GameManager : MonoBehaviour
     {
         Vector3 direction = target.transform.position - clickedMagnetObject.transform.position; // 磁石からターゲットへの方向ベクトル
         Vector3 targetPosition = clickedMagnetObject.transform.position + direction.normalized * detectionRadius; // 反発先の位置
+        // z座標に作用しないように変更
+        targetPosition.z = target.transform.position.z;
         // audioManager.playRepel();
         target.transform.position = Vector3.MoveTowards(target.transform.position, targetPosition, repulsionForce * Time.deltaTime); // 反発
     }
@@ -110,12 +112,14 @@ public class GameManager : MonoBehaviour
     {
         Vector3 direction = clickedMagnetObject.transform.position - target.transform.position; // 磁石からターゲットへの方向ベクトル
         float distance = direction.magnitude;
-
+        // z座標に作用しないように変更
+        Vector3 targetPosition = clickedMagnetObject.transform.position;
+        targetPosition.z = target.transform.position.z;
         // ターゲットが磁石から離れていなければ引き寄せ
         if (distance > 0.5f)
         {
             // audioManager.playAttract();
-            target.transform.position = Vector3.MoveTowards(target.transform.position, clickedMagnetObject.transform.position, attractionForce * Time.deltaTime); // 引き寄せ
+            target.transform.position = Vector3.MoveTowards(target.transform.position, targetPosition, attractionForce * Time.deltaTime); // 引き寄せ
         }
     }
 

@@ -18,8 +18,6 @@ public class TargetObject : MonoBehaviour
         // 右に動いてたら
         float vel_x = transform.position.x - prePosition.x;
         vel = (transform.position - prePosition).magnitude;
-        animator.SetFloat("vel", vel);
-        Debug.Log(transform.localScale.x);
         // DashのAnimation
         if(vel_x != 0) animator.SetBool("dash", true);
         else animator.SetBool("dash", false);
