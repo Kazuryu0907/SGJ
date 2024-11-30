@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     private Camera mainCamera;
 
     private Renderer playerRenderer; // プレイヤーのレンダラー
+    private GameObject clickedMagnetObject = null; // クリックされたマグネットオブジェクト
 
     private void Start()
     {
@@ -74,8 +75,28 @@ public class PlayerController : MonoBehaviour
 
     private void HandleMouseClick()
     {
+        // マウスクリックを検出して、クリックしたマグネットオブジェクトにプレイヤーを移動
+        if (Input.GetMouseButtonDown(0)) // 左クリック
+        {
+            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Collider2D hitCollider = Physics2D.OverlapPoint(mousePosition);
+
+            // クリックしたオブジェクトがマグネットかどうか確認
+            if (hitCollider != null && hitCollider.gameObject.CompareTag("Magnet"))
+            {
+                clickedMagnetObject = hitCollider.gameObject;
+
+                // プレイヤーをクリックしたマグネットの中心に移動
+                Vector3 magnetPosition = clickedMagnetObject.transform.position;
+                transform.position = new Vector3(magnetPosition.x, magnetPosition.y, transform.position.z);
+
+                // ライトの位置もマグネットに合わせる
+                activeSpotlight.transform.position = new Vector3(magnetPosition.x, magnetPosition.y, activeSpotlight.transform.position.z);
+            }
+        }
+
         // activeSpotlightがnullでない場合にのみ処理を行う
-        if ((activeSpotlight != null))
+        if (activeSpotlight != null)
         {
             // 左クリックでライトを移動
             if (Input.GetMouseButtonDown(0)) // マウスボタンが押されたとき

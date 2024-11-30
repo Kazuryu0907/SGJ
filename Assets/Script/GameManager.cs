@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
         Positive, // 正の磁石
         Negative  // 負の磁石
     }
-
+    public MagnetAttribute magnetAttribute = MagnetAttribute.Positive; // 初期値はPositive
     private GameObject clickedMagnetObject = null; // クリックされた磁石オブジェクト
 
     private void Update()
@@ -30,6 +30,8 @@ public class GameManager : MonoBehaviour
             if (hitCollider != null && hitCollider.gameObject.CompareTag("Magnet"))
             {
                 clickedMagnetObject = hitCollider.gameObject;
+                // クリックした磁石オブジェクトの属性を更新
+                magnetAttribute = clickedMagnetObject.GetComponent<Magnet>().magnetAttribute;
             }
         }
 
@@ -47,16 +49,17 @@ public class GameManager : MonoBehaviour
                 if (target.CompareTag("Target"))
                 {
                     // クリックされた磁石オブジェクトの属性を取得
-                    MagnetAttribute magnetAttribute = clickedMagnetObject.GetComponent<Magnet>().magnetAttribute;
                     MagnetAttribute targetAttribute = target.GetComponent<TargetObject>().objectAttribute;
 
                     // 同じ属性なら反発、それ以外は引き寄せ
                     if (magnetAttribute == targetAttribute)
                     {
+                        Debug.Log(123);
                         Repel(target);
                     }
                     else
                     {
+                        Debug.Log(456);
                         Attract(target);
                     }
                 }
@@ -91,7 +94,12 @@ public class GameManager : MonoBehaviour
         if (magnetObject != null)
         {
             Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(magnetObject[1].transform.position, detectionRadius);
+
+            // magnetObject配列内のすべてのオブジェクトに対して検出範囲を表示
+            foreach (var magnet in magnetObject)
+            {
+                Gizmos.DrawWireSphere(magnet.transform.position, detectionRadius);
+            }
         }
     }
 }
