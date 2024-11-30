@@ -5,8 +5,18 @@ using UnityEngine.SceneManagement;
 
 public class ChangeScene : MonoBehaviour
 {
-    public void change_button() //change_button‚Æ‚¢‚¤–¼‘O‚É‚µ‚Ü‚·
+    public void change_button() //change_buttonï¿½Æ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½É‚ï¿½ï¿½Ü‚ï¿½
     {
-        SceneManager.LoadScene("Main");//second‚ğŒÄ‚Ño‚µ‚Ü‚·
+        SceneManager.LoadScene("Main");//secondï¿½ï¿½ï¿½Ä‚Ñoï¿½ï¿½ï¿½Ü‚ï¿½
+    }
+
+    public void onGoal(){
+        // string sceneName = "NextSceneHere";
+        // SceneManager.LoadScene(sceneName)
+        Debug.Log("onGoal");
+    }
+
+    private void OnTriggerEnter(Collider other){
+        Debug.Log("OnTriggerEnter");
     }
 }
