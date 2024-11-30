@@ -45,6 +45,8 @@ public class GameManager : MonoBehaviour
                 {
                     // クリックした磁石オブジェクトの属性を保存
                     magnetAttribute = clickedMagnetObject.GetComponent<Magnet>().magnetAttribute;
+                    Debug.Log("Magnet Attribute: " + magnetAttribute);
+                    // magnetAttribute = MagnetAttribute.Negative;
                     isMagnetSet = true; // 属性が設定されたことを記録
                 }
             }else{

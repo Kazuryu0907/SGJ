@@ -30,6 +30,7 @@ public class Magnet : MonoBehaviour
             if (gameManager != null)
             {
                 gameManager.magnetAttribute = GameManager.MagnetAttribute.Positive;
+                magnetAttribute = GameManager.MagnetAttribute.Positive;
                 Debug.Log("Magnet Attribute changed to Positive.");
             }
             else
@@ -44,6 +45,7 @@ public class Magnet : MonoBehaviour
             if (gameManager != null)
             {
                 gameManager.magnetAttribute = GameManager.MagnetAttribute.Negative;
+                magnetAttribute = GameManager.MagnetAttribute.Negative;
                 Debug.Log("Magnet Attribute changed to Negative.");
             }
             else
