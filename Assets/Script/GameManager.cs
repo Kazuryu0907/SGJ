@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -19,6 +20,9 @@ public class GameManager : MonoBehaviour
     public MagnetAttribute magnetAttribute = MagnetAttribute.Positive; // 初期値はPositive
     private GameObject clickedMagnetObject = null; // クリックされた磁石オブジェクト
     private bool isMagnetSet = false; // 磁石属性が設定されているかどうかを追跡
+
+    //public GameObject player; // プレイヤーオブジェクト
+    //public GameObject[] walls;
 
     private void Update()
     {
@@ -45,6 +49,19 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+
+        //// プレイヤーと壁の座標を取得
+        //Vector2 playerPosition = player.transform.position;
+
+        //foreach (GameObject wall in walls)
+        //{
+        //    Vector2 wallPosition = wall.transform.position;
+
+        //    if (IsWithinRange(playerPosition, wallPosition, detectionRadius))
+        //    {
+        //        TriggerExplosion();
+        //    }
+        //}
 
         // クリックされた磁石オブジェクトがあり、クリックが押されている間のみ処理を実行
         if (clickedMagnetObject != null && Input.GetMouseButton(0))
@@ -115,5 +132,33 @@ public class GameManager : MonoBehaviour
                 Gizmos.DrawWireSphere(magnet.transform.position, detectionRadius);
             }
         }
+    }// OnTriggerEnter2Dで衝突を検出し、WallとTargetタグが触れた場合にゲームをリセット
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        // WallとTargetが触れた場合にシーンをリセット
+        if (other.CompareTag("Wall") && clickedMagnetObject != null && clickedMagnetObject.CompareTag("Target"))
+        {
+            ResetGame();
+        }
+    }
+
+    //// 判定距離内かを確認する関数
+    //private bool IsWithinRange(Vector2 playerPos, Vector2 wallPos, float range)
+    //{
+    //    return (Mathf.Abs(playerPos.x - wallPos.x) <= range &&
+    //            Mathf.Abs(playerPos.y - wallPos.y) <= range);
+    //}
+
+    //// 爆散処理
+    //private void TriggerExplosion()
+    //{
+    //    Debug.Log("プレイヤーが壁の範囲内に入りました！爆散処理を実行します！");
+    //    // 爆散のアニメーションやエフェクトをここに実装
+    //}
+
+    // ゲームをリセット
+    public void ResetGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
