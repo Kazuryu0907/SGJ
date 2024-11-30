@@ -8,7 +8,7 @@ public class ObjectManager : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            GameManager.Instance.GameOver(); // プレイヤー死亡処理
+            //GameManager.Instance.GameOver(); // プレイヤー死亡処理
         }
     }
 }

@@ -24,18 +24,22 @@ public class LightManager : MonoBehaviour
                 currentLightDuration -= Time.deltaTime;
                 if (currentLightDuration <= 0)
                 {
-                    GameManager.Instance.GameOver();
+                    //GameManager.Instance.GameOver();
                 }
             }
         }
-        else
+        if(Input.GetButtonDown("Q"))
         {
-            RecoverLight();
+
         }
+        //else
+        //{
+        //    RecoverLight();
+        //}
     }
 
-    private void RecoverLight()
-    {
-        currentLightDuration = Mathf.Min(maxLightDuration, currentLightDuration + Time.deltaTime * 0.5f); // ‚ä‚Á‚­‚è‰ñ•œ
-    }
+    //private void RecoverLight()
+    //{
+    //    currentLightDuration = Mathf.Min(maxLightDuration, currentLightDuration + Time.deltaTime * 0.5f); // ‚ä‚Á‚­‚è‰ñ•œ
+    //}
 }
