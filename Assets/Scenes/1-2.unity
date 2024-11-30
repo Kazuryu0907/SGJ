@@ -1316,6 +1316,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 07391f7549f58464f8ca8213aac08f06, type: 3}
+--- !u!1 &931492077 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1033662494214155336, guid: 07391f7549f58464f8ca8213aac08f06, type: 3}
+  m_PrefabInstance: {fileID: 931492076}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &973455763
 GameObject:
   m_ObjectHideFlags: 0
@@ -2823,11 +2828,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   magnetObject:
-  - {fileID: 1262465081}
+  - {fileID: 931492077}
   - {fileID: 985185726}
-  repulsionForce: 10
-  attractionForce: 10
-  detectionRadius: 12.7
+  - {fileID: 1262465081}
+  repulsionForce: 5
+  attractionForce: 5
+  detectionRadius: 7.5
   audioManager: {fileID: 1423603167}
   magnetAttribute: 0
 --- !u!4 &1441847005

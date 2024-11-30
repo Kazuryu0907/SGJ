@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour
         // エスケープキーでシーンを切り替える
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            SceneManager.LoadScene("Start");
+            SceneManager.LoadScene("StageSelection");
         }
     }
 

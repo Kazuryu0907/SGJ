@@ -8,7 +8,7 @@ public class GoalScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("GoalScript.Start");    
+        //Debug.Log("GoalScript.Start");    
     }
 
     // Update is called once per frame
@@ -20,6 +20,7 @@ public class GoalScript : MonoBehaviour
         if(other.gameObject.tag == "Target"){
             changeScene.onGoal();
             Debug.Log("Goaled");
+            changeScene.Reset();
         }
     }
 }
