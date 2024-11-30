@@ -1630,6 +1630,7 @@ MonoBehaviour:
   audioRepel: {fileID: 8300000, guid: 8a65e7154768a1d4591db84f2dac979d, type: 3}
   audioAttract: {fileID: 8300000, guid: bc35ae4aea3d65240bd6d8d61290b3b4, type: 3}
   audioBiribiri: {fileID: 8300000, guid: 8af16db2b14baee4888fbb10c2ed325b, type: 3}
+  audioGoal: {fileID: 8300000, guid: 1729d7fe9b5cedc4a8c44de0df16163b, type: 3}
 --- !u!4 &1423603168
 Transform:
   m_ObjectHideFlags: 0
@@ -2590,7 +2591,7 @@ SceneRoots:
   - {fileID: 1640754688}
   - {fileID: 1805798500}
   - {fileID: 636707323}
-  - {fileID: 1423603168}
   - {fileID: 1262465080}
   - {fileID: 985185725}
   - {fileID: 107018474}
+  - {fileID: 1423603168}

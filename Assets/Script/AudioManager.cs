@@ -11,6 +11,7 @@ public class AudioManager : MonoBehaviour
     private string attractedObjectName = "";
     private string repeledObjectName = "";
     [SerializeField] private AudioClip audioBiribiri;
+    [SerializeField] private AudioClip audioGoal;
     private AudioSource audioSource = default;
     private void Awake(){
         audioSource = gameObject.AddComponent<AudioSource>();
