@@ -10,6 +10,12 @@ public class ChangeScene : MonoBehaviour
         SceneManager.LoadScene("Main");//second���Ăяo���܂�
     }
 
+    public void onGoal(){
+        // string sceneName = "NextSceneHere";
+        // SceneManager.LoadScene(sceneName)
+        Debug.Log("onGoal");
+    }
+
     private void OnTriggerEnter(Collider other){
         Debug.Log("OnTriggerEnter");
     }
