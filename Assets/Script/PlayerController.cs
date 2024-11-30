@@ -1,10 +1,13 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
     public Light spotlight1; // 一つ目の光
     public Light spotlight2; // 二つ目の光
+    public Image red;
+    public Image blue;
     private Light activeSpotlight; // 現在アクティブな光
     private Camera mainCamera;
 
@@ -18,9 +21,11 @@ public class PlayerController : MonoBehaviour
         {
             Debug.LogError("Spotlightが設定されていません。Inspectorで割り当ててください。");
         }
-
+        red.enabled = true;
+        blue.enabled = false;
         // 初期状態で最初のライトとマテリアルをアクティブにする
-        activeSpotlight = null;
+        activeSpotlight = spotlight1;
+        spotlight2.enabled = false;
         playerRenderer = GetComponent<Renderer>();
         SetLightVisibility();
     }
@@ -35,6 +40,8 @@ public class PlayerController : MonoBehaviour
         {
             activeSpotlight = spotlight1;
             SetLightVisibility();
+            red.enabled = true;
+            blue.enabled = false;
         }
 
         // Wキーでライト2とマテリアル2を選択
@@ -42,6 +49,8 @@ public class PlayerController : MonoBehaviour
         {
             activeSpotlight = spotlight2;
             SetLightVisibility();
+            red.enabled = false;
+            blue.enabled = true;
         }
 
         // エスケープキーでシーンを切り替える

@@ -4,79 +4,94 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject magnetObject; // �}�O�l�b�g�I�u�W�F�N�g
-    public float repulsionForce; // �����͂̋���
-    public float attractionForce; // �����񂹗͂̋���
-    public float detectionRadius; // �I�[�o�[���b�v�����o���锼�a
+    public GameObject[] magnetObject; // 磁石オブジェクトのリスト
+    public float repulsionForce; // 反発力
+    public float attractionForce; // 引力
+    public float detectionRadius; // 対象検出範囲
 
     public enum MagnetAttribute
     {
-        Positive, // ���̑���
-        Negative  // ���̑���
+        Positive, // 正の磁石
+        Negative  // 負の磁石
     }
 
+    private GameObject clickedMagnetObject = null; // クリックされた磁石オブジェクト
 
     private void Update()
     {
-        // Collider[] colliders = Physics.OverlapSphere(magnetObject.transform.position, detectionRadius); // ���a���w��
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(magnetObject.transform.position, detectionRadius); // ���a���w��
-
-        foreach (var collider in colliders)
+        // マウスのクリックを検出
+        if (Input.GetMouseButtonDown(0)) // 左クリック
         {
-            GameObject target = collider.gameObject;
-            MagnetAttribute magnetAttribute = magnetObject.GetComponent<Magnet>().magnetAttribute;;
-            if (target.CompareTag("Target")) // "Magnet" �^�O�����I�u�W�F�N�g
+            // クリック位置でRaycastを行い、クリックされたオブジェクトを特定
+            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Collider2D hitCollider = Physics2D.OverlapPoint(mousePosition);
+
+            // クリックしたオブジェクトが磁石オブジェクトかどうか確認
+            if (hitCollider != null && hitCollider.gameObject.CompareTag("Magnet"))
             {
-                // �^�[�Q�b�g�I�u�W�F�N�g�ɑΉ����鑮�����擾
-                MagnetAttribute targetAttribute = target.GetComponent<TargetObject>().objectAttribute;
-                Debug.Log("target:"+targetAttribute);
-                Debug.Log("magnet:"+magnetAttribute);
-                // ��������v���Ă���Δ����A�Ⴆ�Έ�����
-                if (magnetAttribute == targetAttribute)
+                clickedMagnetObject = hitCollider.gameObject;
+            }
+        }
+
+        if (clickedMagnetObject != null)
+        {
+            // クリックされた磁石オブジェクトの位置を取得
+            Vector3 clickedMagnetPosition = clickedMagnetObject.transform.position;
+
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(clickedMagnetPosition, detectionRadius); // 磁石の周りにいるターゲットを検出
+
+            foreach (var collider in colliders)
+            {
+                GameObject target = collider.gameObject;
+
+                if (target.CompareTag("Target"))
                 {
-                    // Debug.Log("Repelling");
-                    Repel(target);
-                }
-                else
-                {
-                    // Debug.Log("Attracting");
-                    Attract(target);
+                    // クリックされた磁石オブジェクトの属性を取得
+                    MagnetAttribute magnetAttribute = clickedMagnetObject.GetComponent<Magnet>().magnetAttribute;
+                    MagnetAttribute targetAttribute = target.GetComponent<TargetObject>().objectAttribute;
+
+                    // 同じ属性なら反発、それ以外は引き寄せ
+                    if (magnetAttribute == targetAttribute)
+                    {
+                        Repel(target);
+                    }
+                    else
+                    {
+                        Attract(target);
+                    }
                 }
             }
         }
     }
 
-    // ��������
+    // 反発処理
     private void Repel(GameObject target)
     {
-        Vector3 direction = target.transform.position - magnetObject.transform.position; // �}�O�l�b�g����^�[�Q�b�g�ւ̃x�N�g��
-        Vector3 targetPosition = magnetObject.transform.position + direction.normalized * detectionRadius; // ���E�t�߂̈ʒu
-        Debug.Log(direction);
-        Debug.Log(targetPosition);
-        // target.transform.position.
-        target.transform.position = Vector3.MoveTowards(target.transform.position, targetPosition, repulsionForce * Time.deltaTime); // ���E�Ɍ�����
+        Vector3 direction = target.transform.position - clickedMagnetObject.transform.position; // 磁石からターゲットへの方向ベクトル
+        Vector3 targetPosition = clickedMagnetObject.transform.position + direction.normalized * detectionRadius; // 反発先の位置
+        target.transform.position = Vector3.MoveTowards(target.transform.position, targetPosition, repulsionForce * Time.deltaTime); // 反発
     }
 
-    // �����񂹏���
+    // 引力処理
     private void Attract(GameObject target)
     {
-        Vector3 direction = magnetObject.transform.position - target.transform.position; // �}�O�l�b�g�ֈ����񂹂�x�N�g��
+        Vector3 direction = clickedMagnetObject.transform.position - target.transform.position; // 磁石からターゲットへの方向ベクトル
         float distance = direction.magnitude;
 
-        // �}�O�l�b�g�ɂԂ���Ȃ��悤�ɂ���
-        if (distance > 0.5f) // ������0.5�����ɂȂ�Ȃ��悤����
+        // ターゲットが磁石から離れていなければ引き寄せ
+        if (distance > 0.5f)
         {
-            target.transform.position = Vector3.MoveTowards(target.transform.position, magnetObject.transform.position, attractionForce * Time.deltaTime);
+            target.transform.position = Vector3.MoveTowards(target.transform.position, clickedMagnetObject.transform.position, attractionForce * Time.deltaTime); // 引き寄せ
         }
     }
 
-    // ���o���̂��߂�Gizmos���g�p
+    // Gizmosで磁石の検出範囲を表示
     private void OnDrawGizmos()
     {
         if (magnetObject != null)
         {
-            Gizmos.color = Color.green; // �ΐF�ŕ\��
-            Gizmos.DrawWireSphere(magnetObject.transform.position, detectionRadius); // ���a�������C���[�t���[���̋���`��
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(magnetObject[1].transform.position, detectionRadius);
         }
     }
 }
