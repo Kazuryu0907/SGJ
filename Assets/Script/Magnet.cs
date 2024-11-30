@@ -2,29 +2,29 @@ using UnityEngine;
 
 public class Magnet : MonoBehaviour
 {
-    public bool isActive = false; // ¥Î‚ÌƒAƒNƒeƒBƒuó‘Ô
-    public GameManager.MagnetAttribute magnetAttribute; // ¥Î‚Ì‘®«i³‚Ü‚½‚Í•‰j
-    private GameManager gameManager; // GameManager‚ÌQÆ
+    public bool isActive = false; // ï¿½ï¿½ï¿½Î‚ÌƒAï¿½Nï¿½eï¿½Bï¿½uï¿½ï¿½ï¿½
+    public GameManager.MagnetAttribute magnetAttribute; // ï¿½ï¿½ï¿½Î‚Ì‘ï¿½ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½Ü‚ï¿½ï¿½Í•ï¿½ï¿½j
+    private GameManager gameManager; // GameManagerï¿½ÌQï¿½ï¿½
 
     void Start()
     {
-        // GameManager‚ÌQÆ‚ğæ“¾
+        // GameManagerï¿½ÌQï¿½Æ‚ï¿½ï¿½æ“¾
         gameManager = FindObjectOfType<GameManager>();
 
         if (gameManager == null)
         {
-            Debug.LogError("GameManager‚ªƒV[ƒ“‚ÉŒ©‚Â‚©‚è‚Ü‚¹‚ñI");
+            Debug.LogError("GameManagerï¿½ï¿½ï¿½Vï¿½[ï¿½ï¿½ï¿½ÉŒï¿½ï¿½Â‚ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½I");
         }
 
-        if (GetComponent<Collider>() == null)
+        if (GetComponent<Collider2D>() == null)
         {
-            gameObject.AddComponent<BoxCollider>(); // Collider‚ª–³‚¯‚ê‚Î’Ç‰Á
+            gameObject.AddComponent<BoxCollider2D>(); // Colliderï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î’Ç‰ï¿½
         }
     }
 
     void Update()
     {
-        // QƒL[‚Å¥Î‘®«‚ğ³‚Éİ’è
+        // Qï¿½Lï¿½[ï¿½Åï¿½ï¿½Î‘ï¿½ï¿½ï¿½ï¿½ğ³‚Éİ’ï¿½
         if (Input.GetKeyDown(KeyCode.Q))
         {
             if (gameManager != null)
@@ -38,7 +38,7 @@ public class Magnet : MonoBehaviour
             }
         }
 
-        // WƒL[‚Å¥Î‘®«‚ğ•‰‚Éİ’è
+        // Wï¿½Lï¿½[ï¿½Åï¿½ï¿½Î‘ï¿½ï¿½ï¿½ï¿½ğ•‰‚Éİ’ï¿½
         if (Input.GetKeyDown(KeyCode.W))
         {
             if (gameManager != null)
@@ -53,17 +53,17 @@ public class Magnet : MonoBehaviour
         }
     }
 
-    // ƒ}ƒEƒX‚ğ‰Ÿ‚µ‚½‚Æ‚«‚ÉƒAƒNƒeƒBƒu‚É‚·‚é
+    // ï¿½}ï¿½Eï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½ÉƒAï¿½Nï¿½eï¿½Bï¿½uï¿½É‚ï¿½ï¿½ï¿½
     void OnMouseDown()
     {
-        isActive = true; // ƒAƒNƒeƒBƒuó‘Ô‚É‚·‚é
+        isActive = true; // ï¿½Aï¿½Nï¿½eï¿½Bï¿½uï¿½ï¿½Ô‚É‚ï¿½ï¿½ï¿½
         Debug.Log("Magnet Activated: " + isActive + ", Attribute: " + magnetAttribute);
     }
 
-    // ƒ}ƒEƒX‚ğ—£‚µ‚½‚Æ‚«‚É”ñƒAƒNƒeƒBƒu‚É‚·‚é
+    // ï¿½}ï¿½Eï¿½Xï¿½ğ—£‚ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½É”ï¿½Aï¿½Nï¿½eï¿½Bï¿½uï¿½É‚ï¿½ï¿½ï¿½
     void OnMouseUp()
     {
-        isActive = false; // ”ñƒAƒNƒeƒBƒuó‘Ô‚É‚·‚é
+        isActive = false; // ï¿½ï¿½Aï¿½Nï¿½eï¿½Bï¿½uï¿½ï¿½Ô‚É‚ï¿½ï¿½ï¿½
         Debug.Log("Magnet Deactivated: " + isActive + ", Attribute: " + magnetAttribute);
     }
 }

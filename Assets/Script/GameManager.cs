@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
     public float attractionForce; // 引力
     public float detectionRadius; // 対象検出範囲
 
+    [SerializeField] private AudioManager audioManager;
+
     public enum MagnetAttribute
     {
         Positive, // 正の磁石
@@ -30,6 +32,8 @@ public class GameManager : MonoBehaviour
             // クリックしたオブジェクトが磁石オブジェクトかどうか確認
             if (hitCollider != null && hitCollider.gameObject.CompareTag("Magnet"))
             {
+                // サウンド再生
+                audioManager.playBiribiri();
                 clickedMagnetObject = hitCollider.gameObject;
 
                 // まだ磁石属性が設定されていない場合のみ属性を設定
@@ -62,10 +66,12 @@ public class GameManager : MonoBehaviour
                     // 同じ属性なら反発、それ以外は引き寄せ
                     if (magnetAttribute == targetAttribute)
                     {
+                        // Debug.Log(123);
                         Repel(target);
                     }
                     else
                     {
+                        // Debug.Log(456);
                         Attract(target);
                     }
                 }
@@ -78,6 +84,7 @@ public class GameManager : MonoBehaviour
     {
         Vector3 direction = target.transform.position - clickedMagnetObject.transform.position; // 磁石からターゲットへの方向ベクトル
         Vector3 targetPosition = clickedMagnetObject.transform.position + direction.normalized * detectionRadius; // 反発先の位置
+        // audioManager.playRepel();
         target.transform.position = Vector3.MoveTowards(target.transform.position, targetPosition, repulsionForce * Time.deltaTime); // 反発
     }
 
@@ -90,6 +97,7 @@ public class GameManager : MonoBehaviour
         // ターゲットが磁石から離れていなければ引き寄せ
         if (distance > 0.5f)
         {
+            // audioManager.playAttract();
             target.transform.position = Vector3.MoveTowards(target.transform.position, clickedMagnetObject.transform.position, attractionForce * Time.deltaTime); // 引き寄せ
         }
     }
