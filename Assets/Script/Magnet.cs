@@ -44,73 +44,47 @@ public class Magnet : MonoBehaviour
 
     void Update()
     {
-        // Qキーで磁石の属性をポジティブに設定
-        if (Input.GetKeyDown(KeyCode.Q))
+        // プレイヤーが何色かによって磁石の属性を変える
+        if (playerController.IsRed())
         {
-            if (gameManager != null)
-            {
-                gameManager.magnetAttribute = GameManager.MagnetAttribute.Positive;
-                magnetAttribute = GameManager.MagnetAttribute.Positive;
-                Debug.Log("Magnet Attribute changed to Positive.");
-            }
-            else
-            {
-                Debug.LogWarning("gameManager is null");
-            }
+            magnetAttribute = GameManager.MagnetAttribute.Positive;
+            gameManager.magnetAttribute = magnetAttribute; // GameManagerに属性変更を反映
+            Debug.Log("Magnet Attribute changed to Positive.");
+        }
+        else if (playerController.IsBlue())
+        {
+            magnetAttribute = GameManager.MagnetAttribute.Negative;
+            gameManager.magnetAttribute = magnetAttribute; // GameManagerに属性変更を反映
+            Debug.Log("Magnet Attribute changed to Negative.");
         }
 
-        // Wキーで磁石の属性をネガティブに設定
-        if (Input.GetKeyDown(KeyCode.W))
+        // ボタン操作で磁石のアクティブ状態を変更
+        if (Input.GetKeyDown(KeyCode.Q)) // Qキーで磁石アクティブ
         {
-            if (gameManager != null)
-            {
-                gameManager.magnetAttribute = GameManager.MagnetAttribute.Negative;
-                magnetAttribute = GameManager.MagnetAttribute.Negative;
-                Debug.Log("Magnet Attribute changed to Negative.");
-            }
-            else
-            {
-                Debug.LogWarning("gameManager is null");
-            }
+            isActive = true;
+            SetMagnetActiveState();
+            Debug.Log("Magnet Activated: " + isActive + ", Attribute: " + magnetAttribute);
         }
-    }
 
-    // マウスが押されたときの処理
-    void OnMouseDown()
-    {
-        // プレイヤーの色を確認
-        if (playerController != null)
+        if (Input.GetKeyDown(KeyCode.E)) // Eキーで磁石非アクティブ
         {
-            bool isRed = playerController.IsRed();
-            bool isBlue = playerController.IsBlue();
-
-            if (isRed)
-            {
-                isActive = true; // アクティブ状態に設定
-                animator.SetBool("RED", true);
-                animator.SetBool("BLUE", false);
-                Debug.Log("Magnet Activated (RED): " + isActive + ", Attribute: " + magnetAttribute);
-            }
-            else if (isBlue)
-            {
-                isActive = true; // アクティブ状態に設定
-                animator.SetBool("RED", false);
-                animator.SetBool("BLUE", true);
-                Debug.Log("Magnet Activated (BLUE): " + isActive + ", Attribute: " + magnetAttribute);
-            }
-            else
-            {
-                Debug.Log("Player is not in a valid state for interaction.");
-            }
+            isActive = false;
+            SetMagnetInactiveState();
+            Debug.Log("Magnet Deactivated: " + isActive + ", Attribute: " + magnetAttribute);
         }
     }
 
-    // マウスが離されたときの処理
-    void OnMouseUp()
+    // 磁石がアクティブな状態にする
+    private void SetMagnetActiveState()
     {
-        isActive = false; // 非アクティブ状態に設定
+        animator.SetBool("RED", playerController.IsRed());
+        animator.SetBool("BLUE", playerController.IsBlue());
+    }
+
+    // 磁石が非アクティブな状態にする
+    private void SetMagnetInactiveState()
+    {
         animator.SetBool("RED", false);
         animator.SetBool("BLUE", false);
-        Debug.Log("Magnet Deactivated: " + isActive + ", Attribute: " + magnetAttribute);
     }
 }

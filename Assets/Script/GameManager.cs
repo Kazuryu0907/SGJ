@@ -21,9 +21,6 @@ public class GameManager : MonoBehaviour
     private GameObject clickedMagnetObject = null; // クリックされた磁石オブジェクト
     private bool isMagnetSet = false; // 磁石属性が設定されているかどうかを追跡
 
-    //public GameObject player; // プレイヤーオブジェクト
-    //public GameObject[] walls;
-
     private void Update()
     {
         // マウスのクリックを検出
