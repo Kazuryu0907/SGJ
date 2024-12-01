@@ -19,6 +19,10 @@ public class ChangeScene : MonoBehaviour
         Invoke(nameof(loadMain), 1.2f);
     }
 
+    public void stage11()
+    {
+        SceneManager.LoadScene("1-1");
+    }
     public void stage12()
     {
         SceneManager.LoadScene("1-2");

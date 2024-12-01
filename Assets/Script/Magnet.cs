@@ -2,29 +2,49 @@ using UnityEngine;
 
 public class Magnet : MonoBehaviour
 {
-    public bool isActive = false; // ���΂̃A�N�e�B�u���
-    public GameManager.MagnetAttribute magnetAttribute; // ���΂̑����i���܂��͕��j
-    private GameManager gameManager; // GameManager�̎Q��
+    public bool isActive = false; // 現在のアクティブ状態
+    public GameManager.MagnetAttribute magnetAttribute; // 磁石の属性（正または負）
+    private GameManager gameManager; // GameManagerへの参照
+
+    private Animator animator; // アニメーションを制御するためのAnimator
+    private PlayerController playerController; // プレイヤーの状態を確認するための参照
 
     void Start()
     {
-        // GameManager�̎Q�Ƃ��擾
+        // GameManagerの参照を取得
         gameManager = FindObjectOfType<GameManager>();
 
         if (gameManager == null)
         {
-            Debug.LogError("GameManager���V�[���Ɍ�����܂���I");
+            Debug.LogError("GameManagerがシーンに存在しません！");
         }
 
+        // プレイヤーの状態を確認
+        playerController = FindObjectOfType<PlayerController>();
+
+        if (playerController == null)
+        {
+            Debug.LogError("PlayerControllerがシーンに存在しません！");
+        }
+
+        // Animatorコンポーネントを取得
+        animator = GetComponent<Animator>();
+
+        if (animator == null)
+        {
+            Debug.LogError("Animatorがアタッチされていません！");
+        }
+
+        // 必要に応じてBoxCollider2Dを追加
         if (GetComponent<Collider2D>() == null)
         {
-            gameObject.AddComponent<BoxCollider2D>(); // Collider��������Βǉ�
+            gameObject.AddComponent<BoxCollider2D>();
         }
     }
 
     void Update()
     {
-        // Q�L�[�Ŏ��Α����𐳂ɐݒ�
+        // Qキーで磁石の属性をポジティブに設定
         if (Input.GetKeyDown(KeyCode.Q))
         {
             if (gameManager != null)
@@ -39,7 +59,7 @@ public class Magnet : MonoBehaviour
             }
         }
 
-        // W�L�[�Ŏ��Α����𕉂ɐݒ�
+        // Wキーで磁石の属性をネガティブに設定
         if (Input.GetKeyDown(KeyCode.W))
         {
             if (gameManager != null)
@@ -55,17 +75,42 @@ public class Magnet : MonoBehaviour
         }
     }
 
-    // �}�E�X���������Ƃ��ɃA�N�e�B�u�ɂ���
+    // マウスが押されたときの処理
     void OnMouseDown()
     {
-        isActive = true; // �A�N�e�B�u��Ԃɂ���
-        Debug.Log("Magnet Activated: " + isActive + ", Attribute: " + magnetAttribute);
+        // プレイヤーの色を確認
+        if (playerController != null)
+        {
+            bool isRed = playerController.IsRed();
+            bool isBlue = playerController.IsBlue();
+
+            if (isRed)
+            {
+                isActive = true; // アクティブ状態に設定
+                animator.SetBool("RED", true);
+                animator.SetBool("BLUE", false);
+                Debug.Log("Magnet Activated (RED): " + isActive + ", Attribute: " + magnetAttribute);
+            }
+            else if (isBlue)
+            {
+                isActive = true; // アクティブ状態に設定
+                animator.SetBool("RED", false);
+                animator.SetBool("BLUE", true);
+                Debug.Log("Magnet Activated (BLUE): " + isActive + ", Attribute: " + magnetAttribute);
+            }
+            else
+            {
+                Debug.Log("Player is not in a valid state for interaction.");
+            }
+        }
     }
 
-    // �}�E�X�𗣂����Ƃ��ɔ�A�N�e�B�u�ɂ���
+    // マウスが離されたときの処理
     void OnMouseUp()
     {
-        isActive = false; // ��A�N�e�B�u��Ԃɂ���
+        isActive = false; // 非アクティブ状態に設定
+        animator.SetBool("RED", false);
+        animator.SetBool("BLUE", false);
         Debug.Log("Magnet Deactivated: " + isActive + ", Attribute: " + magnetAttribute);
     }
 }

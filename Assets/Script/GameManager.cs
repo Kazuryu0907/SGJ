@@ -55,19 +55,6 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        //// プレイヤーと壁の座標を取得
-        //Vector2 playerPosition = player.transform.position;
-
-        //foreach (GameObject wall in walls)
-        //{
-        //    Vector2 wallPosition = wall.transform.position;
-
-        //    if (IsWithinRange(playerPosition, wallPosition, detectionRadius))
-        //    {
-        //        TriggerExplosion();
-        //    }
-        //}
-
         // クリックされた磁石オブジェクトがあり、クリックが押されている間のみ処理を実行
         if (clickedMagnetObject != null && Input.GetMouseButton(0))
         {
@@ -150,20 +137,6 @@ public class GameManager : MonoBehaviour
             ResetGame();
         }
     }
-
-    //// 判定距離内かを確認する関数
-    //private bool IsWithinRange(Vector2 playerPos, Vector2 wallPos, float range)
-    //{
-    //    return (Mathf.Abs(playerPos.x - wallPos.x) <= range &&
-    //            Mathf.Abs(playerPos.y - wallPos.y) <= range);
-    //}
-
-    //// 爆散処理
-    //private void TriggerExplosion()
-    //{
-    //    Debug.Log("プレイヤーが壁の範囲内に入りました！爆散処理を実行します！");
-    //    // 爆散のアニメーションやエフェクトをここに実装
-    //}
 
     // ゲームをリセット
     public void ResetGame()
