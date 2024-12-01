@@ -51,6 +51,12 @@ public class ChangeScene : MonoBehaviour
     {
         SceneManager.LoadScene("StageSelection");   
     }
+    public void Back2Start(){
+        SceneManager.LoadScene("Start");
+    }
+    public void credit(){
+        SceneManager.LoadScene("Credit");
+    }
 
     public void OnGameOver(){
         Debug.Log("OnGameOver");
