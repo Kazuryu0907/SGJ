@@ -55,8 +55,7 @@ public class TargetObject : MonoBehaviour
         // targetObject の表示/非表示設定
         if (targetObject != null)
         {
-            // 速度がほぼ0なら非表示、それ以外は表示
-            if (vel < 0.01f) // 0.01f は閾値（微調整可能）
+            if (vel < 0.01f) // 停止状態の閾値
             {
                 targetObject.SetActive(false);
             }
@@ -66,6 +65,26 @@ public class TargetObject : MonoBehaviour
             }
         }
 
+        // 画面内に収める
+        ClampToScreen();
+
         prePosition = transform.position;
+    }
+
+    private void ClampToScreen()
+    {
+        // カメラのビューポート境界を計算
+        Camera mainCamera = Camera.main;
+        Vector3 position = transform.position;
+
+        Vector3 minScreenBounds = mainCamera.ViewportToWorldPoint(new Vector3(0, 0, position.z - mainCamera.transform.position.z));
+        Vector3 maxScreenBounds = mainCamera.ViewportToWorldPoint(new Vector3(1, 1, position.z - mainCamera.transform.position.z));
+
+        // X, Y 座標を制限
+        position.x = Mathf.Clamp(position.x, minScreenBounds.x, maxScreenBounds.x);
+        position.y = Mathf.Clamp(position.y, minScreenBounds.y, maxScreenBounds.y);
+
+        // 制限された位置を適用
+        transform.position = position;
     }
 }

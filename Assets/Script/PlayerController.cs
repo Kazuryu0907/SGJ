@@ -16,6 +16,9 @@ public class PlayerController : MonoBehaviour
 
     private Animator animator; // Animatorコンポーネント
 
+    public Button redButton; // REDボタン
+    public Button blueButton; // BLUEボタン
+
     private void Start()
     {
         mainCamera = Camera.main;
@@ -40,36 +43,16 @@ public class PlayerController : MonoBehaviour
         // 初期状態のアニメーション設定
         animator.SetBool("RED", true);
         animator.SetBool("BLUE", false);
+
+        // ボタンにメソッドを割り当て
+        redButton.onClick.AddListener(OnRedButtonPressed);
+        blueButton.onClick.AddListener(OnBlueButtonPressed);
     }
 
     private void Update()
     {
         MoveToMousePosition();
         HandleMouseClick();
-
-        // Qキーでライト1を選択し、REDアニメーションを有効化
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            activeSpotlight = spotlight1;
-            SetLightVisibility();
-            red.enabled = true;
-            blue.enabled = false;
-
-            animator.SetBool("RED", true);
-            animator.SetBool("BLUE", false);
-        }
-
-        // Wキーでライト2を選択し、BLUEアニメーションを有効化
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            activeSpotlight = spotlight2;
-            SetLightVisibility();
-            red.enabled = false;
-            blue.enabled = true;
-
-            animator.SetBool("RED", false);
-            animator.SetBool("BLUE", true);
-        }
 
         // エスケープキーでシーンを切り替える
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -93,6 +76,7 @@ public class PlayerController : MonoBehaviour
 
         transform.position = new Vector3(clampedX, clampedY, targetPosition.z);
     }
+
     public bool IsRed()
     {
         return animator.GetBool("RED");
@@ -145,5 +129,29 @@ public class PlayerController : MonoBehaviour
     {
         spotlight1.enabled = activeSpotlight == spotlight1;
         spotlight2.enabled = activeSpotlight == spotlight2;
+    }
+
+    // REDボタンが押されたときに呼ばれるメソッド
+    private void OnRedButtonPressed()
+    {
+        activeSpotlight = spotlight1;
+        SetLightVisibility();
+        red.enabled = true;
+        blue.enabled = false;
+
+        animator.SetBool("RED", true);
+        animator.SetBool("BLUE", false);
+    }
+
+    // BLUEボタンが押されたときに呼ばれるメソッド
+    private void OnBlueButtonPressed()
+    {
+        activeSpotlight = spotlight2;
+        SetLightVisibility();
+        red.enabled = false;
+        blue.enabled = true;
+
+        animator.SetBool("RED", false);
+        animator.SetBool("BLUE", true);
     }
 }

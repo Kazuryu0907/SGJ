@@ -21,9 +21,6 @@ EditorBuildSettings:
     path: Assets/Scenes/1-3.unity
     guid: 67db06cb0a2f471479eddae1b0619248
   - enabled: 1
-    path: Assets/Scenes/GOAL.unity
-    guid: 1d26c394f7525844792968ad34c4f01e
-  - enabled: 1
     path: Assets/Scenes/StageSelection.unity
     guid: f5b9cd91d31886b48bfec169152ad0cc
   m_configObjects: {}
