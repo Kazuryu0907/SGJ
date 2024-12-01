@@ -50,6 +50,9 @@ public class ChangeScene : MonoBehaviour
     public void Reset()
     {
         SceneManager.LoadScene("StageSelection");   
+        if(SceneManager.GetActiveScene().name == "1-4"){
+            SceneManager.LoadScene("Credit");
+        }
     }
     public void Back2Start(){
         SceneManager.LoadScene("Start");

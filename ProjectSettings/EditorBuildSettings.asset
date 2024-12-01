@@ -9,9 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Start.unity
     guid: f7aee87db3bb5964d835d17bf651d716
   - enabled: 1
-    path: Assets/Scenes/Credit.unity
-    guid: bfec5882b982fa34caaf4810467cdf8f
-  - enabled: 1
     path: Assets/Scenes/1-1.unity
     guid: 6ecc8903fbdd1c94c9b854b6b596f53d
   - enabled: 1
@@ -26,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/StageSelection.unity
     guid: f5b9cd91d31886b48bfec169152ad0cc
+  - enabled: 1
+    path: Assets/Scenes/Credit.unity
+    guid: bfec5882b982fa34caaf4810467cdf8f
   m_configObjects: {}
